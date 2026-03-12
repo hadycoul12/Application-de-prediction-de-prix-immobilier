@@ -167,7 +167,7 @@ def check_credentials(username: str, password: str) -> bool:
     except Exception:
         # ── Mode local (fallback dev) ──────────────────────────────
         # ⚠️ Remplacez par vos credentials en production
-        return username == "admin" and password == "immo2024"
+        return username == "admin" and password == "nexa2026"
 
 
 def login_page():
@@ -321,8 +321,8 @@ plt.rcParams.update({
 # ║  HELPERS                                                         ║
 # ╚══════════════════════════════════════════════════════════════════╝
 @st.cache_data(show_spinner="Chargement des données…")
-def load_data(file) -> pd.DataFrame:
-    df = pd.read_csv(file)
+def load_data(file_bytes: bytes) -> pd.DataFrame:
+    df = pd.read_csv(io.BytesIO(file_bytes))
     if "YearBuilt" in df.columns:
         df["AgeLogement"] = 2025 - df["YearBuilt"]
     if all(c in df.columns for c in ["GrLivArea", "TotalBsmtSF"]):
@@ -330,6 +330,7 @@ def load_data(file) -> pd.DataFrame:
     if all(c in df.columns for c in ["FullBath", "HalfBath"]):
         df["NbSallesDeBain"] = df["FullBath"] + 0.5 * df["HalfBath"]
     return df
+
 
 
 def impute(df: pd.DataFrame) -> pd.DataFrame:
@@ -389,7 +390,7 @@ with st.sidebar:
                     padding:0.45rem 0.75rem;margin-bottom:0.3rem;">
             Hady COULIBALY
         </div>
-        <div style="font-size:0.74rem;color:#6688aa;font-style:italic;">Étudiant · Data Science</div>
+        <div style="font-size:0.74rem;color:#6688aa;font-style:italic;">IA Engineer</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -467,15 +468,21 @@ if page == "Page 1":
         Max 10 Mo · Max 10 000 lignes
         </div>""", unsafe_allow_html=True)
 
-    if uploaded:
-        df_validated = validate_csv_upload(uploaded)
-        if df_validated is not None:
-            st.session_state.df_raw = load_data(uploaded)
-    elif st.session_state.df_raw is None:
-        try:
-            st.session_state.df_raw = load_data("train.csv")
-            log_event("DATA_LOAD", "train.csv local chargé")
-        except FileNotFoundError:
+if uploaded:
+    file_bytes = uploaded.read()
+    if len(file_bytes) == 0:
+        st.error("Le fichier est vide.", icon="🚫")
+    elif len(file_bytes) > 10 * 1024 * 1024:
+        st.error("Fichier trop volumineux (max 10 Mo).", icon="🚫")
+    else:
+        st.session_state.df_raw = load_data(file_bytes)
+        log_event("UPLOAD_OK", f"{uploaded.name} — {len(file_bytes)//1024} Ko")
+elif st.session_state.df_raw is None:
+    try:
+        with open("train.csv", "rb") as f:
+            st.session_state.df_raw = load_data(f.read())
+        log_event("DATA_LOAD", "train.csv local chargé")
+    except FileNotFoundError:
             st.error("⚠️ Aucun fichier trouvé. Chargez votre CSV.", icon="🚨")
             st.stop()
 
