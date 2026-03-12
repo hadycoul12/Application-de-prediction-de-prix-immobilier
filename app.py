@@ -382,7 +382,7 @@ with st.sidebar:
             🏠 ImmoPredict
         </div>
         <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#e5a040;margin-bottom:0.3rem;">
-            Créé par
+            Auteur
         </div>
         <div style="font-family:'DM Serif Display',serif;font-size:1.2rem;color:#ffffff;
                     background:linear-gradient(135deg,rgba(229,160,64,0.25),rgba(229,160,64,0.05));
@@ -390,7 +390,7 @@ with st.sidebar:
                     padding:0.45rem 0.75rem;margin-bottom:0.3rem;">
             Hady COULIBALY
         </div>
-        <div style="font-size:0.74rem;color:#6688aa;font-style:italic;">IA Engineer</div>
+        <div style="font-size:0.74rem;color:#6688aa;font-style:italic;">Etudiant en M2 Data & Intelligence Artificielle</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -451,24 +451,28 @@ if page == "Page 1":
     </div>""", unsafe_allow_html=True)
 
     section("Chargement du dataset")
-    col_up, col_info = st.columns([2, 1])
-    with col_up:
-        uploaded = st.file_uploader(
-            "📂 Charger train.csv",
-            type="csv",
-            help="CSV Ames Housing — max 10 Mo, 10 000 lignes.",
-        )
-    with col_info:
-        st.markdown("""
-        <div class="info-box">
-        <b>Format attendu</b><br>
-        CSV Ames Housing :<br>
-        SalePrice, GrLivArea, Neighborhood…<br>
-        <br><b>Limites sécurité :</b><br>
-        Max 10 Mo · Max 10 000 lignes
-        </div>""", unsafe_allow_html=True)
+col_up, col_info = st.columns([2, 1])
 
-if uploaded:
+# Déclaration AVANT le bloc with
+uploaded = None
+
+with col_up:
+    uploaded = st.file_uploader(
+        "📂 Charger train.csv",
+        type="csv",
+        help="CSV Ames Housing — max 10 Mo, 10 000 lignes.",
+    )
+with col_info:
+    st.markdown("""
+    <div class="info-box">
+    <b>Format attendu</b><br>
+    CSV Ames Housing :<br>
+    SalePrice, GrLivArea, Neighborhood…<br>
+    <br><b>Limites sécurité :</b><br>
+    Max 10 Mo · Max 10 000 lignes
+    </div>""", unsafe_allow_html=True)
+
+if uploaded is not None:
     file_bytes = uploaded.read()
     if len(file_bytes) == 0:
         st.error("Le fichier est vide.", icon="🚫")
@@ -483,8 +487,8 @@ elif st.session_state.df_raw is None:
             st.session_state.df_raw = load_data(f.read())
         log_event("DATA_LOAD", "train.csv local chargé")
     except FileNotFoundError:
-            st.error("⚠️ Aucun fichier trouvé. Chargez votre CSV.", icon="🚨")
-            st.stop()
+        st.error("⚠️ Aucun fichier trouvé. Chargez votre CSV.", icon="🚨")
+        st.stop()
 
     df_raw = st.session_state.df_raw
 
