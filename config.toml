@@ -1,0 +1,24 @@
+[theme]
+# ── Thème personnalisé ImmoPredict ──────────────────────────────
+primaryColor         = "#e5a040"
+backgroundColor      = "#ffffff"
+secondaryBackgroundColor = "#f4f6f9"
+textColor            = "#1a1a2e"
+font                 = "sans serif"
+
+[server]
+# ── Sécurité serveur ─────────────────────────────────────────────
+headless             = true
+enableCORS           = false
+enableXsrfProtection = true
+maxUploadSize        = 10
+
+[browser]
+# ── Comportement navigateur ──────────────────────────────────────
+gatherUsageStats     = false
+serverAddress        = "0.0.0.0"
+
+[runner]
+# ── Performance ──────────────────────────────────────────────────
+magicEnabled         = false
+fastReruns           = true

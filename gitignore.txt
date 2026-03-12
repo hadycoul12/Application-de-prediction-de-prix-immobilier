@@ -1,0 +1,47 @@
+# ╔══════════════════════════════════════════════════════════════════╗
+# ║  .gitignore — Projet ImmoPredict                                 ║
+# ╚══════════════════════════════════════════════════════════════════╝
+
+# ── Secrets (NE JAMAIS COMMITER) ─────────────────────────────────
+.streamlit/secrets.toml
+.env
+.env.local
+*.env
+
+# ── Environnement virtuel ─────────────────────────────────────────
+venv/
+env/
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# ── Modèles sauvegardés (trop lourds pour GitHub) ─────────────────
+*.pkl
+*.joblib
+*.h5
+*.pt
+*.pth
+
+# ── Données sensibles ─────────────────────────────────────────────
+data/raw/
+*.csv
+!sample_data.csv
+
+# ── Jupyter ───────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ── OS & éditeurs ─────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/settings.json
+*.swp
+*.swo
+
+# ── Logs & cache ──────────────────────────────────────────────────
+logs/
+*.log
+.streamlit/cache/
