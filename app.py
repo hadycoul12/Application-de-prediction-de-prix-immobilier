@@ -481,6 +481,7 @@ if uploaded is not None:
     else:
         st.session_state.df_raw = load_data(file_bytes)
         log_event("UPLOAD_OK", f"{uploaded.name} — {len(file_bytes)//1024} Ko")
+        st.rerun()  # ← force le rechargement pour afficher les filtres
 elif st.session_state.df_raw is None:
     try:
         with open("train.csv", "rb") as f:
@@ -490,7 +491,12 @@ elif st.session_state.df_raw is None:
         st.error("⚠️ Aucun fichier trouvé. Chargez votre CSV.", icon="🚨")
         st.stop()
 
+    if st.session_state.df_raw is None:
+        st.info("👆 Chargez votre fichier CSV ci-dessus pour continuer.", icon="ℹ️")
+        st.stop()
+
     df_raw = st.session_state.df_raw
+    st.success(f"✅ Dataset chargé : **{df_raw.shape[0]:,} lignes** × **{df_raw.shape[1]} colonnes**")
 
     # ── Filtres ────────────────────────────────────────────────────
     section("Filtres interactifs")
