@@ -298,7 +298,7 @@ with st.sidebar:
             🏠 ImmoPredict
         </div>
         <div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#e5a040;margin-bottom:0.3rem;">
-            Créé par
+            Auteur
         </div>
         <div style="font-family:'DM Serif Display',serif;font-size:1.2rem;color:#ffffff;
                     background:linear-gradient(135deg,rgba(229,160,64,0.25),rgba(229,160,64,0.05));
