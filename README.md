@@ -1,6 +1,6 @@
 # 🏠 ImmoPredict — Application Streamlit
 
-**Auteur** : Hady COULIBALY — Étudiant Data Science  
+**Auteur** : Hady COULIBALY — Data Analyst & Data Scientist  
 **Version** : 2.0 — Déploiement Streamlit Cloud  
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io)

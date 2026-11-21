@@ -1,0 +1,18 @@
+# Secrets
+.streamlit/secrets.toml
+.env
+*.env
+
+# Environnements virtuels et caches
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

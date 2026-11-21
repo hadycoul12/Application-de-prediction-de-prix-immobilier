@@ -136,8 +136,8 @@ def check_credentials(username: str, password: str) -> bool:
         valid_pass = st.secrets["auth"]["password"]
         return username == valid_user and password == valid_pass
     except Exception:
-        # Fallback local sans secrets.toml
-        return username == "admin" and password == "nexa2026"
+        # Pas de secrets configurés : aucun accès (aucun identifiant par défaut).
+        return False
 
 
 def login_page():
